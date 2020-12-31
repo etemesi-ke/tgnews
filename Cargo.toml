@@ -1,0 +1,46 @@
+[package]
+name = "tgnews"
+version = "0.1.0"
+authors = ["Steve  Tyler <stevetyler@zoho.xom>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+whatlang={git="https://github.com/shadedKE/whatlang-rs", version = "0.10.0"}
+select='0.4.3'
+rocket={git="https://github.com/SergioBenitez/Rocket.git",default-features=false}
+walkdir = {git="https://github.com/shadedKE/walkdir.git"}
+clap= { git="https://github.com/clap-rs/clap.git"}
+crossbeam-utils='0.7.0'
+fasttext = "0.4.1"
+serde_json = {version = "1.0.52", features = ["preserve_order"]}
+lazy_static = "1.4.0"
+regex="1"
+protobuf="2.17.0"
+sled = "0.34.6"
+url = "2.1.1"
+chrono="0.4.11"
+porter-stemmer = "0.1.2"
+ndarray="0.13.1"
+colored = "2.0.0"
+eddie = "0.4"
+# Maybe enable IndexMap if need arises
+
+futures={version="0.3.5",features=["thread-pool"]}
+num-traits="0.2.12"
+ndarray-stats = "0.3.0"
+tokio={version="0.2.22",features=["blocking"]}
+
+log="0.4"
+[dependencies.serde]
+version='1.0.110'
+features = ["derive"]
+
+[profile.release]
+opt-level = 3
+panic = "abort"
+lto=true
+
+[build-dependencies]
+protoc-rust = "2.0"
