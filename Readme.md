@@ -1,16 +1,4 @@
 # Hello there Citizen
-This is my updated solution for  `Telegram data clustering contest` held on
-`14-05-2020` to `25-05-2020`(okay I can't remember the dates) 
-
-This version would not have been made possible without the help of 
-the following blog posts on how their solutions worked
- * [Mindful Squirrel](https://medium.com/@phoenixilya/news-aggregator-in-2-weeks-5b38783b95e3)
- * [Daring Frog](https://medium.com/@phoenixilya/news-aggregator-in-2-weeks-5b38783b95e3)
- * [Mindful Kitten](https://danlark.org/2020/07/31/news-aggregator-from-scratch-in-2-weeks/)
-
-And the source code of a lot of people (`damn you people are smart, you taught me a lot`)
-
-PS: My first solution was spaghetti, so i spent some time (a few months refactoring it to less spaghetti), i didn't go to the future and read those blogs and use em
 
 ## Building
 `git clone [whatever this repository is]` and then
@@ -34,9 +22,6 @@ If you want to do it yourself;
 `cp ./target/release/tgnews ./`
 
 Then run the binary with the specified arguments
-
-## How Everything works
-I wish I knew actually...
 
 ## How things work
 All modules spawn `16` worker threads to handle processing 
@@ -100,7 +85,7 @@ which returns a label of files whose title dissimilarities are low,
 * OKay a little bit about the clustering, it pulls documents which have the lowest dissimilarity to self
 * So for example say a document A is dissimilar to B by 0.12 and A is dissimilar to C by 0.15 but B
 is dissimilar to C by 0.05, A won't pull B, B will pull C so we end up with something looking like
-```json
+```hjson
 {
  [ title:"A",
   "articles": [A],
@@ -157,19 +142,46 @@ Async works magic
 >
 
 3. ### Clustering and returning
+#### Okay a request just came in
 
-Markdown stop messing with my numbering, am already tired
+`PUT /upload/longticlename.html`
+1. Detect language.
+> * English or Russian? No? Okay tell the client we can't handle this.
 
-Clusters are maintained in real time, is that foolish?, yes. 
-Do i care , `yes`.
+2. Is it news?
+> No tell the client we only speak news
 
-Did Telegram say they using 16 GB for each submission?`Yes`.
+3. Categorize it.
+> Low detection accuracy.
+> > Slowly drop it.. slowly..
 
-Do I care now?
-`No`
-But memory use is efficient(1312 MB for 24000 documents so it will probably crash with 500,000 docs)
-so there is one to remove `decayed` documents when the cluster gets above 40,000 documents,
+4. Passed all the above?
+> Get its Alexa rating, its title and its url its language and every info needed to present it as a 
+> `/proto/server_files.proto` and then represent it as such
+> 
+> Add it to the cluster
+> 
+> Asynchronously send it to sled(a KV database) to store it.
+>
+#### Okay another request came in
 
-Okay lets get to clustering now
-> * As previously mentioned clusters are maintained in `real time`
-> * 
+`GET /threads/?lang_code='en'&category=science&period=3200`
+
+And I parse that
+And then we
+
+1. Look at the category. Do i know it?, Ya , Do I have it? Ya . So lemme fetch it
+2. I have the category cluster, now then we pass it to the time filter and we see how many articles actually made
+   the time(meaning some clusters will be empty)
+3. Remove empty clusters and for those remaining, sort them by size(not the best metric, but gets the job done)
+4. Send them back like crazy
+
+
+#### Okay a server reload was needed
+Okay server is up
+
+1. We got any articles in DBASE?
+2. Read them and put them into threads
+3. Await further commands
+
+And i believe that is all

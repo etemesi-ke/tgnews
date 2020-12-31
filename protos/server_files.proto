@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package ServerFiles;
+//    pub title:String,
+//    pub url:String,
+//    pub file_name:String,
+//    pub date_published:u64,
+//    pub lang:Option<Lang>,
+//    pub category:Categories,
+//    pub accuracy:f32,
+message ProtoFile{
+  string title=1;
+  string  file_name = 2;
+  string url = 3;
+  int64 date_published = 4;
+  Category category=5;
+  Language language=6;
+  float accuracy=7;
+  // Global rating
+  float gb_rating = 8;
+  // Russian Rating
+  float ru_rating =9;
+  // English Rating
+  float us_rating = 10;
+  // We won't include the body because i don't wanna save it
+
+}
+enum Language {
+  Eng=0;
+  Rus=1;
+}
+enum Category {
+  Society=0;
+  Economy=1;
+  Technology=2;
+  Entertainment=3;
+  Sports=4;
+  Science=5;
+  Other=6;
+  // We don't have unknown since the server should return early for unknown
+}
