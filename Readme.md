@@ -1,7 +1,13 @@
-# Hello there Citizen
+# Hello there
 
 ## Building
-`git clone [whatever this repository is]` and then
+download data files from [here](https://mega.nz/folder/SZtEnRgJ#LMreY7hDQBCTNS9KAESCNA)
+
+`git clone [whatever this repository is]`
+
+Place the data files in the same folder as the files fetched from git.
+
+And then
 
 Run 
 ```
